@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Exports\TransactionsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransactionController extends Controller
 {
@@ -49,6 +51,15 @@ class TransactionController extends Controller
         return view('transactions.index', compact('transactions', 'income', 'expense', 'balance', 'categories'));
     }
 
+    public function exportExcel()
+    {
+        return Excel::download(new TransactionsExport, 'transactions.xlsx');
+    }
+
+    public function exportCsv()
+    {
+        return Excel::download(new TransactionsExport, 'transactions.csv');
+    }
 
     /**
      * Show the form for creating a new resource.

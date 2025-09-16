@@ -24,6 +24,8 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('transactions', TransactionController::class);
     Route::resource('categories', CategoryController::class)->except(['show']);
     Route::get('/statistics', [TransactionController::class, 'statistics'])->name('transactions.statistics');
+    Route::get('/transactions/export/excel', [TransactionController::class, 'exportExcel'])->name('transactions.export.excel');
+    Route::get('/transactions/export/csv', [TransactionController::class, 'exportCsv'])->name('transactions.export.csv');
 
 });
 

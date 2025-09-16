@@ -8,6 +8,11 @@
                 <a href="{{ route('transactions.statistics') }}" class="btn btn-info">📊 Statistika</a>
                 <a href="{{ route('transactions.create') }}" class="btn btn-success">+ Yangi qo‘shish</a>
             </div>
+            <div class="mb-3">
+                <a href="{{ route('transactions.export.excel') }}" class="btn btn-success">⬇ Excel yuklab olish</a>
+                <a href="{{ route('transactions.export.csv') }}" class="btn btn-primary">⬇ CSV yuklab olish</a>
+            </div>
+
         </div>
 
         {{-- 📌 Filtrlash / Qidiruv --}}
