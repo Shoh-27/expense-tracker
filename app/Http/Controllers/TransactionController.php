@@ -13,13 +13,42 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $transactions = $request->user()->transactions()->with('category')->latest()->paginate(10);
-        $income = $request->user()->transactions()->where('kind','income')->sum('amount');
-        $expense = $request->user()->transactions()->where('kind','expense')->sum('amount');
+        $query = $request->user()->transactions()->with('category');
+
+        // 📌 Filtrlash
+        if ($request->filled('from')) {
+            $query->whereDate('date', '>=', $request->from);
+        }
+        if ($request->filled('to')) {
+            $query->whereDate('date', '<=', $request->to);
+        }
+
+        if ($request->filled('kind')) {
+            $query->where('kind', $request->kind);
+        }
+
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('q')) {
+            $query->where('note', 'like', '%'.$request->q.'%');
+        }
+
+        // 📌 Tranzaksiyalar
+        $transactions = $query->latest()->paginate(10);
+
+        // 📌 Statistikalar (filter bo‘yicha emas, umumiy)
+        $income = $request->user()->transactions()->where('kind', 'income')->sum('amount');
+        $expense = $request->user()->transactions()->where('kind', 'expense')->sum('amount');
         $balance = $income - $expense;
 
-        return view('transactions.index', compact('transactions','income','expense','balance'));
+        // 📌 Filter uchun kategoriyalar
+        $categories = Category::all();
+
+        return view('transactions.index', compact('transactions', 'income', 'expense', 'balance', 'categories'));
     }
+
 
     /**
      * Show the form for creating a new resource.
