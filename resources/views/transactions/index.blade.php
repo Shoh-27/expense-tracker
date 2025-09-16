@@ -5,6 +5,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mb-0">📊 Transactionlar</h2>
             <a href="{{ route('transactions.create') }}" class="btn btn-success">+ Yangi qo‘shish</a>
+            <a href="{{ route('transactions.statistics') }}" class="btn btn-info">📊 Statistika</a>
         </div>
 
         <div class="row text-center mb-4">

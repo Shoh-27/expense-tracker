@@ -23,6 +23,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth'])->group(function() {
     Route::resource('transactions', TransactionController::class);
     Route::resource('categories', CategoryController::class)->except(['show']);
+    Route::get('/statistics', [TransactionController::class, 'statistics'])->name('transactions.statistics');
+
 });
 
 require __DIR__.'/auth.php';

@@ -92,4 +92,44 @@ class TransactionController extends Controller
         $transaction->delete();
         return back()->with('success','Transaction o‘chirildi');
     }
+
+    public function statistics(Request $request)
+    {
+        $user = $request->user();
+        $userId = $user->id;
+
+
+        // Oylik daromad va chiqim
+        $monthly = \DB::table('transactions')
+            ->selectRaw("DATE_FORMAT(date, '%Y-%m') as month,
+                 SUM(CASE WHEN kind = 'income' THEN amount ELSE 0 END) as income,
+                 SUM(CASE WHEN kind = 'expense' THEN amount ELSE 0 END) as expense")
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        // Kategoriyalar bo‘yicha chiqim
+        $categories = \DB::table('transactions')
+            ->join('categories', 'transactions.category_id', '=', 'categories.id')
+            ->select('categories.name', \DB::raw('SUM(transactions.amount) as total'))
+            ->where('transactions.kind', 'expense')
+            ->groupBy('categories.name')
+            ->get();
+
+        $income = \DB::table('transactions')
+            ->where('user_id', $userId)
+            ->where('kind', 'income')
+            ->sum('amount');
+
+        $expense = \DB::table('transactions')
+            ->where('user_id', $userId)
+            ->where('kind', 'expense')
+            ->sum('amount');
+
+        $balance = $income - $expense;
+
+        return view('transactions.statistics', compact('monthly', 'categories' , 'income' , 'expense', 'balance'));
+
+    }
+
 }
