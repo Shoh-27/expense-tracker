@@ -30,8 +30,8 @@
             </div>
 
             <div class="mb-3">
-                <label for="description" class="form-label">Izoh</label>
-                <textarea name="description" id="description" rows="3" class="form-control"></textarea>
+                <label for="note" class="form-label">Izoh</label>
+                <textarea name="note" id="note" rows="3" class="form-control"></textarea>
             </div>
 
             <button type="submit" class="btn btn-success">Saqlash</button>
