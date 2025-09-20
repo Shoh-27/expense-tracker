@@ -28,7 +28,7 @@ Foydalanuvchilar o‘z xarajat va daromadlarini kiritishi, kategoriyalar bo‘yi
 
 1. Loyihani clone qiling:
    ```bash
-   git clone https://github.com/USERNAME/expense-tracker.git
+   git clone https://github.com/Shoh-27/expense-tracker.git
    cd expense-tracker
 composer install
 npm install && npm run dev
